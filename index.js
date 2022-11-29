@@ -1,8 +1,11 @@
 import express from 'express'
-import { router as SongRouter } from './Routes/song.router.js'
+import dotenv from 'dotenv';
+import SongRouter from './Routes/song.router.js'
+
+dotenv.config();
+const port = process.env.PORT || 3000
 
 const app = express()
-const port = 3000
 
 // App settings to provide access to request body data
 app.use(express.urlencoded({ extended: true }))
