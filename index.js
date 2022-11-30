@@ -1,3 +1,4 @@
+// Import af dependencies
 import express from 'express'
 import dotenv from 'dotenv';
 import SongRouter from './Routes/song.router.js'
