@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 	res.send('Hello world')
 })
 
-// Route bundles
+// Router bundles
 app.use(SongRouter)
 
 // Run server
