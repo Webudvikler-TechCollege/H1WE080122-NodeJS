@@ -61,9 +61,20 @@ class SongController {
 	 * @param {Object} res Express Response Object
 	 */
 	create = (req, res) => {
-		res.send('Opret sang')
-		// Form Data kan hentes fra body på request objektet
-		console.log(req.body);
+		
+		const { title, content, artist_id } = req.body;
+
+		if(title && content && artist_id) {
+			const sql = `INSERT INTO song(title, content, artist_id)  
+							VALUES(?,?,?)`
+			db.query(sql, [title, content, artist_id], (err, result) => {
+				if(err) {
+					console.error(err)
+				} else {
+					res.json({ newId: result.insertId });
+				}
+			})
+		}
 	}
 
 	/**
