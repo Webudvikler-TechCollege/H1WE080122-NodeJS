@@ -1,3 +1,4 @@
+// Importer dependencies
 import db from '../Config/mysql.config.js'
 
 /**
