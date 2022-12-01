@@ -16,11 +16,24 @@ class SongController {
 	 * @param {Object} res Express Response Object
 	 */
 	list = (req, res) => {
+		// Destructure assignment af get params - til manipulation af dataliste
+		let { sortkey, sortdir, limit, attributes } = req.query
+		// Sorteringsfelt
+		sortkey = sortkey ? sortkey : 'id'
+		// Sorteringsretning
+		sortdir = sortdir ? sortdir.toUpperCase() : 'ASC'
+		// Begræns til antal records
+		limit = limit ? `LIMIT ${parseInt(limit)}` : ''
+		// Felter
+		attributes = attributes ? attributes : 's.id, s.title, a.name'
+
 		// Deklarerer SQL
-		const sql = `SELECT s.id, s.title, a.name  
+		const sql = `SELECT ${attributes} 
 						FROM song s 
 						JOIN artist a 
-						ON s.artist_id = a.id`
+						ON s.artist_id = a.id 
+						ORDER BY ${sortkey} ${sortdir} ${limit}`
+
 		// Eksekverer SQL
 		db.query(sql, (err, result) => {
 			if(err) {
