@@ -16,7 +16,10 @@ class SongController {
 	 */
 	list = (req, res) => {
 		// Deklarerer SQL
-		const sql = "SELECT id, title, artist_id FROM song"
+		const sql = `SELECT s.id, s.title, a.name  
+						FROM song s 
+						JOIN artist a 
+						ON s.artist_id = a.id`
 		// Eksekverer SQL
 		db.query(sql, (err, result) => {
 			if(err) {
@@ -36,7 +39,11 @@ class SongController {
 		// Deklarerer var id ud fra url parametre
 		const id = req.params.id || 0
 		// Deklarerer SQL
-		const sql = "SELECT title, content, artist_id FROM song WHERE id = ?"
+		const sql = `SELECT s.title, s.content, a.name  
+						FROM song s 
+						JOIN artist a 
+						ON s.artist_id = a.id 
+						WHERE s.id = ?`
 		// Eksekverer SQL
 		db.query(sql, [id], (err, result) => {
 			if(err) {
