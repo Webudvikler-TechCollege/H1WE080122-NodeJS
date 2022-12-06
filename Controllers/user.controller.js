@@ -47,6 +47,25 @@ class UserController {
 		// Udskriver resultat i json format
 		res.json(result)
 	}
+
+	/**
+	 * Method Details
+	 * @param {Object} req Express Request Object
+	 * @param {Object} res Express Response Object
+	 */
+	create = async (req, res) => {
+		// Destructure assignment af form data fra request body
+		const { firstname, lastname, email, password } = req.body;
+		// Tjekker felt data
+		if(firstname && lastname && email && password) {
+			// Opretter record
+			const model = await UserModel.create(req.body)
+			// Sender nyt id som json object
+			res.json({ newId: model.id })
+		} else {
+			res.sendStatus(418)
+		}
+	}
 }
 
 export default UserController
