@@ -1,6 +1,8 @@
 // Import af dependencies
 import express from 'express'
 import dotenv from 'dotenv';
+import InitRouter from './Routes/init.router.js'
+import UserRouter from './Routes/user.router.js'
 import SongRouter from './Routes/song.router.js'
 import ArtistRouter from './Routes/artist.router.js'
 
@@ -20,6 +22,9 @@ app.get('/', (req, res) => {
 })
 
 // Router bundles
+app.use(InitRouter)
+app.use(UserRouter)
+
 app.use(SongRouter)
 app.use(ArtistRouter)
 
