@@ -3,8 +3,10 @@ import express from 'express'
 import dotenv from 'dotenv';
 import InitRouter from './Routes/init.router.js'
 import UserRouter from './Routes/user.router.js'
+import OrgRouter from './Routes/org.router.js'
 import SongRouter from './Routes/song.router.js'
 import ArtistRouter from './Routes/artist.router.js'
+import { router as AuthRouter } from './Routes/authenticate.router.js'
 
 // Kalder dotenv modul
 dotenv.config();
@@ -23,7 +25,9 @@ app.get('/', (req, res) => {
 
 // Router bundles
 app.use(InitRouter)
+app.use(AuthRouter)
 app.use(UserRouter)
+app.use(OrgRouter)
 
 app.use(SongRouter)
 app.use(ArtistRouter)
