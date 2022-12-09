@@ -39,6 +39,10 @@ class AuthenticateController {
 			res.sendStatus(403)
 		}
 	}
+
+	protected = async (req, res) => {
+		res.sendStatus(200)
+	}
 }
 
 export default AuthenticateController
