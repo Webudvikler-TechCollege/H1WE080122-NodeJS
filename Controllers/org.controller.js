@@ -1,13 +1,9 @@
-import UserModel from '../Models/user.model.js'
 import OrgModel from '../Models/Org.model.js'
 
-OrgModel.hasMany(UserModel)
-UserModel.belongsTo(OrgModel)
-
 /**
- * Controller for User Actions
+ * Controller for Org Actions
  */
-class UserController {
+class OrgController {
 
 	/**
 	 * Method List
@@ -23,17 +19,13 @@ class UserController {
 		// Sætter limit antal
 		limit = parseInt(limit) || 1000
 		// Sætter attributter (table felter)
-		const attr = attributes ? attributes.split(',') : new Array('id', 'firstname', 'lastname')
+		const attr = attributes ? attributes.split(',') : new Array('id', 'title')
 
 		// Eksekverer sequelize metode med management values
-		const result = await UserModel.findAll({
+		const result = await OrgModel.findAll({
 			attributes: attr,
 			order: [order],
-			limit: limit,
-			include: {
-				model: OrgModel,
-				attributes: ['id', 'title']
-			}
+			limit: limit
 		})
 		// Udskriver resultat i json format
 		res.json(result)
@@ -48,8 +40,8 @@ class UserController {
 		// Destructure assignment af id. 
 		const { id } = req.params || 0
 		// Eksekverer sequelize metode med attributter og where clause
-		const result = await UserModel.findOne({
-			attributes: ['id', 'firstname', 'lastname', 'email', 'is_active', 'createdAt', 'updatedAt'],
+		const result = await OrgModel.findOne({
+			attributes: ['id', 'title', 'address', 'zipcode', 'city', 'country', 'createdAt', 'updatedAt'],
 			where: { id: id }
 		})
 		// Udskriver resultat i json format
@@ -63,11 +55,11 @@ class UserController {
 	 */
 	create = async (req, res) => {
 		// Destructure assignment af form data fra request body
-		const { firstname, lastname, email, password, org_id } = req.body;
+		const { title, address, zipcode, city, country } = req.body;
 		// Tjekker felt data
-		if(firstname && lastname && email && password && org_id) {
+		if(title && address && zipcode && city) {
 			// Opretter record
-			const model = await UserModel.create(req.body)
+			const model = await OrgModel.create(req.body)
 			// Sender nyt id som json object
 			res.json({ newId: model.id })
 		} else {
@@ -79,11 +71,11 @@ class UserController {
 		// Destructure assignment af id. 
 		const { id } = req.params || 0
 		// Destructure assignment af form data fra request body
-		const { firstname, lastname, email, password, org_id } = req.body;
+		const { title, address, zipcode, city, country } = req.body;
 		// Tjekker felt data
-		if(id && firstname && lastname && email && password && org_id) {
+		if(id && title && address && zipcode && city) {
 			// Opretter record
-			const model = await UserModel.update(req.body, {
+			const model = await OrgModel.update(req.body, {
 				where: { id: id },
 				individualHooks: true
 			})
@@ -97,4 +89,4 @@ class UserController {
 	}
 }
 
-export default UserController
+export default OrgController
