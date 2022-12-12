@@ -11,23 +11,18 @@ dotenv.config()
 const verifyToken = (req, res, next) => {
 	// Henter authorization header
 	const bearerHeader = req.headers['authorization']
-	// Hvis header findes...
-	if(bearerHeader) {
-		// Udskiller token fra Bearer string
-		const access_token = bearerHeader.substring(7)
-		// Verificerer token med jwt og private key
-		jwt.verify(access_token, process.env.PRIVATE_KEY, (err, result) => {
-			if(!err) {
-				// Kald next metode hvis true
-				next()
-			} else {
-				// Meld unauthorized hvis false
-				res.sendStatus(403)
-			}
-		})
-	} else {
-		res.sendStatus(401)
-	}
+	// Udskiller token fra Bearer string
+	const access_token = bearerHeader.substring(7)
+	// Verificerer token med jwt og private key
+	jwt.verify(access_token, process.env.PRIVATE_KEY, (err, result) => {
+		if(!err) {
+			// Kald next metode hvis true
+			next()
+		} else {
+			// Meld unauthorized hvis false
+			res.sendStatus(403)
+		}
+	})	
 }
 
 export default verifyToken
